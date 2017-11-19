@@ -4,7 +4,7 @@ clc
 
 % Data Import (it takes a while)
 
-data = readtable('comp3208-2017-train.csv');
+data = readtable('../comp3208-2017-train.csv');
 data = data{:,:};
 
 %% 
