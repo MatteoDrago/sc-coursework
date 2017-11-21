@@ -682,8 +682,8 @@ void similarity_matrix(sqlite3 *db, sqlite3 *db_avg, sqlite3 *similarity, long i
 
 	for (int i = 2; i <= tot_users; i++)
 	{
-		std::cout << "Writing row " << i << " ..." << std::endl;
-		for (int j = 2; j < i; j++)
+		std::cout << "Writing user " << i << " ..." << std::endl;
+		for (int j = i+1; j < tot_users; j++)
 		{
 			//std::cout << "Comparison with " << j << " ..." << std::endl;
 			sim = pearson_similarity(users[i], users[j], avgs[i], avgs[j], db);
@@ -721,7 +721,7 @@ void similarity_matrix(sqlite3 *db, sqlite3 *db_avg, sqlite3 *similarity, long i
 int main(int argc, const char * argv[]) {
 
 	int rc, rc_2, avgs;
-	long int users = 1000;
+	long int users = 135000;
 	long int total_users;
 	long int commit_interval = 10000;
 	bool create = true; // Flag value: if create is false, we just update the similarity matrix that already exists.
