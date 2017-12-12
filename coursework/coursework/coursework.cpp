@@ -586,7 +586,7 @@ double pearson_similarity(vector<entry> user1, vector<entry> user2, double avg1,
 	double newden1 = 0;
 	double newden2 = 0;
 
-#pragma omp parallel for reduction(+:newnum), reduction(+:newden1), reduction(+:newden2);
+#pragma omp parallel for reduction(+:newnum), reduction(+:newden1), reduction(+:newden2)
 
 	for (int i = 0; i < user2.size() - 1; i++)
 	{
@@ -740,7 +740,7 @@ int main(int argc, const char * argv[]) {
 	}
 
 	// Open DB for similarity matrix
-	rc_2 = sqlite3_open("D:/Social Computing Techniques/prova", &db_2);
+	rc_2 = sqlite3_open("C:/sqlite/prova", &db_2);
 	if (rc_2) {
 		fprintf(stderr, "Can't open database: %s\n", sqlite3_errmsg(db_2));
 		return(0);
