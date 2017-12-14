@@ -1,0 +1,41 @@
+\subsection{Prediction algorithm}
+Once obtained all similarities, we can proceed with evaluating the predictions. Starting from one user ($user_1$) and the associated item for which we need to predict the rate, we need to select a significant subset of users that have both rated that item and also have a valid value of similarity with $user_1$: this is subset is called \textit{neighbourhood} and from now on we will refer to it as N.
+
+Of course in N we should put only users which exhibit a positive value of correlation with $user_1$; the decision of the threshold to use to include/exclude a user from the neighbourhood is an interesting problem. After some tests, a reasonable trade-off has been reached setting the similarity threshold to 0.85.
+
+The predicted rating for item \textit{i} given by user \textit{u} has been found as follow:
+\begin{equation}
+	pred(u,i) = \bar{r}_u + 
+	\frac{
+		\sum_{u' \in N} sim(u,u') (r_{u',i} - \bar{r}_u')
+	}{
+		\sum_{u' \in N} sim(u,u')
+	}
+\end{equation}
+where we weight the similarity measure with the rate given by the user to the item \textit{i}. Moreover, we also need to subtract the average rating associated to user \textit{$u'$}; this is done in order to exclude the bias of a single user from the prediction.
+
+Even in this case, time performances are crucial. Not only the use of an index was fundamental, but we also needed to optimize how we query the database. After many tests, we found that the use of nested queries was our only alternative; so, in order to find N we proceeded as follow:
+\begin{itemize}
+	\item First, we need the set of users that have rated the item \textit{i} - \textit{QUERY 1}:
+	\begin{verbatim}
+	SELECT usr.users
+	FROM usersratings usr
+	WHERE usr.item = i;
+	\end{verbatim}
+	\item Then, N is found using a nested query - \textit{QUERY 2}:
+	\begin{verbatim}
+	SELECT s.user2, s.sim
+	FROM similarity s
+	WHERE s.user1 = u AND s.user2 IN (QUERY 1) AND s.sim > 0.85;
+	\end{verbatim}
+	\item Finally, we need the set of ratings that the neighbourhood gave to \textit{i} - \textit{QUERY 2}:
+	\begin{verbatim}
+	SELECT u.rating 
+	FROM usersratings u 
+	WHERE u.user IN (SELECT s.user2
+					 FROM similarity s
+					 WHERE s.user1 = i AND s.user2 IN (QUERY 1) AND s.sim > 0.85) 
+	AND u.item = i;
+	\end{verbatim}	
+\end{itemize}
+After the execution of all the previous queries we make the prediction and add the insertion on the transactions queue.
