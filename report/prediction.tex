@@ -28,7 +28,7 @@ Even in this case, time performances are crucial. Not only the use of an index w
 	FROM similarity s
 	WHERE s.user1 = u AND s.user2 IN (QUERY 1) AND s.sim > 0.85;
 	\end{verbatim}
-	\item Finally, we need the set of ratings that the neighbourhood gave to \textit{i} - \textit{QUERY 2}:
+	\item Finally, we need the set of ratings that the neighbourhood gave to \textit{i} - \textit{QUERY 3}:
 	\begin{verbatim}
 	SELECT u.rating 
 	FROM usersratings u 
@@ -38,4 +38,14 @@ Even in this case, time performances are crucial. Not only the use of an index w
 	AND u.item = i;
 	\end{verbatim}	
 \end{itemize}
-After the execution of all the previous queries we make the prediction and add the insertion on the transactions queue.
+After the execution of all the previous queries we make the prediction and add it on the transactions queue for the insertion on the DB.
+
+\subsection{Cold start problem}
+As outlined before, when a new user enter the system for the first time, there is no history about his preferences on the DB; this means of course that on the very beginning the neighbourhood relative to each item is empty.  
+Nevertheless, we can have an empty neighbourhood even if the user has already review a really small number of items, or if the similarity with users that have reviewed that item is below the threshold. Given all this, we decided to mitigate this problem using two different approaches: first we considered the average rate for the item \textit{i} as actual prediction for the "new" user; after that, in case the user has already rated more at least 15 articles (we chose this value because in our opinion is enough to establish the actual usual behaviour of the customer) we use as prediction the average of the user, otherwise we use directly the average of the item as before.
+
+In the end, using just item averages seemed to perform better.
+
+We could improve our second approach putting beside the user-based system an item-based one under the assumption that a user is likely to have the same opinion for similar items. In this way we don't focus only on the mean behaviour of the buyer, but we also weight on his preferences on same categories of products. Similarity between different article is found using \textit{adjuste-cosine similarity} instead of Pearson coefficient.
+
+Despite this advantage, we initially tried to implement item-based similarity matrix in parallel with the user-based one, but given that we found the same time-optimization problems we focused our energies on resolving that problems. We considered also to predict ratings without similarity matrix, as proposed during module lectures, but in the end we improved our effort on finding the solution for user-based and finally manage to evaluate the matrix.
