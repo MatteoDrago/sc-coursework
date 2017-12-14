@@ -1,4 +1,4 @@
-This is XeTeX, Version 3.14159265-2.6-0.99996 (MiKTeX 2.9.6210 64-bit) (preloaded format=xelatex 2017.11.6)  14 DEC 2017 16:02
+This is pdfTeX, Version 3.14159265-2.6-1.40.18 (MiKTeX 2.9.6400) (preloaded format=pdflatex 2017.9.8)  14 DEC 2017 18:13
 entering extended mode
 **./main.tex
 (main.tex
@@ -748,11 +748,29 @@ Package rerunfilecheck Info: File `main.out' has not changed.
 (rerunfilecheck)             Checksum: F4693B4DDF78388D721FDD06337E48D2;296.
  ) 
 Here is how much of TeX's memory you used:
- 11183 strings out of 427899
- 157404 string characters out of 3153117
- 367560 words of memory out of 3000000
- 14995 multiletter control sequences out of 15000+200000
- 6816 words of font info for 34 fonts, out of 3000000 for 9000
- 1328 hyphenation exceptions out of 8191
- 44i,10n,45p,906b,750s stack positions out of 5000i,500n,10000p,200000b,50000s
+ 8625 strings out of 495217
+ 127192 string characters out of 3181400
+ 339047 words of memory out of 3000000
+ 11734 multiletter control sequences out of 15000+200000
+ 8716 words of font info for 31 fonts, out of 3000000 for 9000
+ 14 hyphenation exceptions out of 8191
+ 44i,10n,43p,907b,758s stack positions out of 5000i,500n,10000p,200000b,50000s
+</home/tommy/.miktex/texmfs/install/fonts/type1/public/amsfonts/cm/cmbx10.pfb
+></home/tommy/.miktex/texmfs/install/fonts/type1/public/amsfonts/cm/cmbx12.pfb>
+</home/tommy/.miktex/texmfs/install/fonts/type1/public/amsfonts/cm/cmex10.pfb><
+/home/tommy/.miktex/texmfs/install/fonts/type1/public/amsfonts/cm/cmmi10.pfb></
+home/tommy/.miktex/texmfs/install/fonts/type1/public/amsfonts/cm/cmmi5.pfb></ho
+me/tommy/.miktex/texmfs/install/fonts/type1/public/amsfonts/cm/cmmi7.pfb></home
+/tommy/.miktex/texmfs/install/fonts/type1/public/amsfonts/cm/cmr10.pfb></home/t
+ommy/.miktex/texmfs/install/fonts/type1/public/amsfonts/cm/cmr5.pfb></home/tomm
+y/.miktex/texmfs/install/fonts/type1/public/amsfonts/cm/cmr7.pfb></home/tommy/.
+miktex/texmfs/install/fonts/type1/public/amsfonts/cm/cmsy10.pfb></home/tommy/.m
+iktex/texmfs/install/fonts/type1/public/amsfonts/cm/cmsy7.pfb></home/tommy/.mik
+tex/texmfs/install/fonts/type1/public/amsfonts/cm/cmti10.pfb></home/tommy/.mikt
+ex/texmfs/install/fonts/type1/public/amsfonts/cm/cmtt10.pfb>
+Output written on main.pdf (6 pages, 191763 bytes).
+PDF statistics:
+ 201 PDF objects out of 1000 (max. 8388607)
+ 80 named destinations out of 1000 (max. 500000)
+ 41 words of extra memory for PDF output out of 10000 (max. 10000000)
 
