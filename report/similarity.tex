@@ -1,22 +1,30 @@
 \subsection{Building similarity matrix}
 
-As explained above we started by considering user-based collaborative filtering. In order to apply this paradigm, we need to build a similarity matrix between users. The equation that gives \textit{Paerson coefficient} for similarity is given in \ref{eq_1}.
+As explained above we started by considering user-based collaborative filtering. In order to apply this paradigm, we need to build a similarity matrix between users. The equation that gives \textit{Paerson coefficient} for similarity is given in eq. \ref{eq_1}.
 
-The procedures that involve the construction of the similarity matrix, exploiting \textit{sqlite} in C++ environment, are the following:
+The steps that involved the construction of the similarity matrix, exploiting \textit{sqlite} in C++ environment, are the following:
 
 \begin{itemize}
-	\item primo elemento
-	\item secondo elemento
+	\item Given the symmetry of similarity matrix we only need to compute the lower triangular part, excluding diagonal values due to the fact that similarity between an user and itself is always $1$. 
+	\item Then, as reported in the pseudocode of Algorithm 2, we split the computation of the matrix in an initialization section and two \textit{for} cycles.
+	\item In \textit{initialization}, we retrieve with \textit{query} method the database's entries of $user_1$ and $user_2$ by userID. Exploiting the aforementioned database with averages, we also retrieved the average associated to $user_1$. After that, we initialized \textit{users} to a \textit{dense google hash map} with hash function \textit{pairhash}, and \textit{avgs} to a vector that will store averages for all other users.
+	Due to time optimization constraints, we replace the standard c++ \textit{unordered map} with a \textit{dense google hash map}, that we found to be faster at looks up when using a key pair for research.
+	\item In the first \textit{for} cycle, we compute the first column of similarity matrix, hence similarity of $user_1$ with respect to all other users. This part of the algorithm is really important cause for every user we load from the respective databases: average of ratings and all entries of train dataset to the \textit{dense google hash map} with key pair consisting of userID and itemID. This will reduce time computation for each of the subsequent columns.
+	\item With the last \textit{for} cycle we computed all other columns of the matrix. Time execution is further improved with \textit{pragma omp tool}, thanks to which the computation of inner \textit{for} cycle is conducted in parallel.
+	\item At the end of every column computation, we saved only similarity values different from \textit{NaN} in database using \textit{runTransaction} method.
+	\item The function \textit{new\_pearson} returns the similarity between $user_i$ and $user_j$. With reference to the code reported in Algorithm 3, we obtained an overall complexity of O(n) for Pearson coefficient calculation, since a find operation (look up) can be easily computed in O(1) exploiting \textit{dense google hash maps}.
 \end{itemize}
 
 \begin{algorithm}
 	\caption{similarity\_matrix}
 	\begin{algorithmic} 
-		\STATE $user_1 \leftarrow query(user1)$
-		\STATE $user_2 \leftarrow query(user2)$
-		\STATE $avg_1 \leftarrow avg\_value(user1)$
+		\STATE $Initialization$
+		\STATE $user_1 \leftarrow query(user_1)$
+		\STATE $user_2 \leftarrow query(user_2)$
+		\STATE $avg_1 \leftarrow avg\_value(user_1)$
 		\STATE $users \leftarrow googleDenseHashMap(pairhash)$
-		\STATE $avgs \leftarrow vectorOfUsersAvegareges$	
+		\STATE $avgs \leftarrow vectorOfUsersAvegareges$
+		\vspace{4mm}	
 		\FOR{i in [2,$ totNumberOfUsers$]}
 		\STATE{$user_i \leftarrow query(user_i)$}
 		\STATE{$avgs_i \leftarrow avg\_value(user_i)$}
@@ -27,7 +35,7 @@ The procedures that involve the construction of the similarity matrix, exploitin
 		\ENDIF
 		\ENDFOR
 		\STATE $runTransaction(insertQuery)$
-		
+		\vspace{4mm}
 		\FOR{i in [2,$ totNumberOfUsers$]}
 		\STATE $pragma \; omp \; parallel \; for$
 		\FOR {j in [$i+1$,$ totNumberOfUsers$]}
@@ -43,6 +51,7 @@ The procedures that involve the construction of the similarity matrix, exploitin
 \end{algorithm}
 
 \begin{algorithm}
+	\label{algo:newpearson}
 	\caption{new\_pearson($user_i$, $user_j$, $compare$, $avg_i$, $avg_j$)}
 	\begin{algorithmic} 
 		\STATE $newnum \leftarrow 0$
@@ -53,8 +62,8 @@ The procedures that involve the construction of the similarity matrix, exploitin
 		\STATE $iterator finder = user_j.find(compare, it->itemID)$
 	
 		\IF{($find \neq user_i.end$)}
-		\STATE $diff_1 \leftarrow (it->rating - avg_i)$;
-		\STATE $diff_2 \leftarrow (finder->rating - avg_j)$;
+		\STATE $diff_1 \leftarrow (it \rightarrow rating - avg_i)$;
+		\STATE $diff_2 \leftarrow (finder \rightarrow rating - avg_j)$;
 		\STATE $newnum \leftarrow newnum +  diff_1\times diff_2$;
 		\STATE $newden_1 \leftarrow newden_1 + diff_1^2$;
 		\STATE $newden_2 \leftarrow newden_2 + diff_2^2$;
