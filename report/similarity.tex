@@ -8,3 +8,60 @@ The procedures that involve the construction of the similarity matrix, exploitin
 	\item primo elemento
 	\item secondo elemento
 \end{itemize}
+
+\begin{algorithm}
+	\caption{similarity\_matrix}
+	\begin{algorithmic} 
+		\STATE $user_1 \leftarrow query(user1)$
+		\STATE $user_2 \leftarrow query(user2)$
+		\STATE $avg_1 \leftarrow avg\_value(user1)$
+		\STATE $users \leftarrow googleDenseHashMap(pairhash)$
+		\STATE $avgs \leftarrow vectorOfUsersAvegareges$	
+		\FOR{i in [2,$ totNumberOfUsers$]}
+		\STATE{$user_i \leftarrow query(user_i)$}
+		\STATE{$avgs_i \leftarrow avg\_value(user_i)$}
+		\STATE $compare \leftarrow i$
+		\STATE{$sim \leftarrow new\_pearson(user_1, users_i, compare, avg_1, avgs_i)$}
+		\IF{($sim \neq 10$)}
+		\STATE $insertQuery.push(sim)$
+		\ENDIF
+		\ENDFOR
+		\STATE $runTransaction(insertQuery)$
+		
+		\FOR{i in [2,$ totNumberOfUsers$]}
+		\STATE $pragma \; omp \; parallel \; for$
+		\FOR {j in [$i+1$,$ totNumberOfUsers$]}
+		\STATE $compare \leftarrow j$
+		\STATE{$sim \leftarrow new\_pearson(user_i, users_j, compare, avg_i, avgs_j)$}
+		\IF{($sim \neq 10$)}
+		\STATE $insertQuery.push(sim)$
+		\ENDIF
+		\ENDFOR
+		\STATE $runTransaction(insertQuery)$
+		\ENDFOR
+	\end{algorithmic}
+\end{algorithm}
+
+\begin{algorithm}
+	\caption{new\_pearson($user_i$, $user_j$, $compare$, $avg_i$, $avg_j$)}
+	\begin{algorithmic} 
+		\STATE $newnum \leftarrow 0$
+		\STATE $newden_1 \leftarrow 0$
+		\STATE $newden_2 \leftarrow 0$
+		
+		\FOR{it in iterator[$user_i.begin$,$user_i.end$]}
+		\STATE $iterator finder = user_j.find(compare, it->itemID)$
+	
+		\IF{($find \neq user_i.end$)}
+		\STATE $diff_1 \leftarrow (it->rating - avg_i)$;
+		\STATE $diff_2 \leftarrow (finder->rating - avg_j)$;
+		\STATE $newnum \leftarrow newnum +  diff_1\times diff_2$;
+		\STATE $newden_1 \leftarrow newden_1 + diff_1^2$;
+		\STATE $newden_2 \leftarrow newden_2 + diff_2^2$;
+		\ENDIF
+		
+		\ENDFOR
+        \RETURN
+	\end{algorithmic}
+\end{algorithm}
+
