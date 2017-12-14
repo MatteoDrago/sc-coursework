@@ -1,6 +1,6 @@
 \section{MATLAB Approach}
 
-We decided to implement \textit{collaborative filtering} paradigm, in particular the \textit{user-based} approach: under the assumption that people who exhibits same preferences in the past will likely do the same in future, we want to find a way to group these users, or to find a measure of similarity between them. One way to do it (which is also the one we adopted) is make use of the \textbf{jointly rated items}. 
+We decided to implement \textit{collaborative filtering} with the \textit{user-based} approach: under the assumption that people who exhibits same preferences in the past will likely do the same in future, we want to find a way to group these users, or to find a measure of similarity between them. One way to do it (which is also the one we adopted) is make use of the \textbf{jointly rated items}. 
 
 As a consequence, in order to get the similarity between two users we need first to collect all the items that both have reviewed. Then, using $u_1$ and $u_2$ to refer to the different users, and $\mathcal{I}$ for the set of jointly rated items, we can find the similarity using:
 \begin{equation}
@@ -57,3 +57,5 @@ After all this time-performances optimization, we encountered another problem: i
 	arrays greater than this limit may take a long time and cause MATLAB to become unresponsive."}).
 
 We concluded that MATLAB wasn't suited for this type of operations and we decided to change architecture: nevertheless, given that this algorithm worked for small sets of users, we decided to use it cross-checking the coefficient values obtained with the following methods.
+
+\clearpage
