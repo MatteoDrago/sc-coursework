@@ -12,7 +12,7 @@ The steps that involved the construction of the similarity matrix, exploiting \t
 	\item In the first \textit{for} cycle, we compute the first column of similarity matrix, hence similarity of $user_1$ with respect to all other users. This part of the algorithm is really important cause for every user we load from the respective databases: average of ratings and all entries of train dataset to the \textit{dense google hash map} with key pair consisting of userID and itemID. This will reduce time computation for each of the subsequent columns.
 	\item With the last \textit{for} cycle we computed all other columns of the matrix. Time execution is further improved with \textit{pragma omp tool}, thanks to which the computation of inner \textit{for} cycle is conducted in parallel.
 	\item At the end of every column computation, we saved only similarity values different from \textit{NaN} in database using \textit{runTransaction} method.
-	\item The function \textit{new\_pearson} returns the similarity between $user_i$ and $user_j$. With reference to the code reported in Algorithm 3, we obtained an overall complexity of O(n) for Pearson coefficient calculation, since a find operation (look up) can be easily computed in O(1) exploiting \textit{dense google hash maps}.
+	\item The function \textit{new\_pearson} returns the similarity between $user_i$ and $user_j$. With reference to the code reported in Algorithm 3, we obtained an overall complexity of O(n) for Pearson's coefficient calculation, since a find operation (look up) can be easily computed in O(1) exploiting \textit{dense google hash maps}.
 \end{itemize}
 
 \begin{algorithm}
@@ -59,7 +59,7 @@ The steps that involved the construction of the similarity matrix, exploiting \t
 		\STATE $newden_2 \leftarrow 0$
 		
 		\FOR{it in iterator[$user_i.begin$,$user_i.end$]}
-		\STATE $iterator finder = user_j.find(compare, it->itemID)$
+		\STATE $iterator finder = user_j.find(compare, it \rightarrow itemID)$
 	
 		\IF{($find \neq user_i.end$)}
 		\STATE $diff_1 \leftarrow (it \rightarrow rating - avg_i)$;
@@ -74,3 +74,4 @@ The steps that involved the construction of the similarity matrix, exploiting \t
 	\end{algorithmic}
 \end{algorithm}
 
+The overall computation time for the similarity matrix takes about $4$ days, even if we manage to utilize advance data structures such as \textit{dense google hash maps} and \textit{pragma omp} for parallel computation.
