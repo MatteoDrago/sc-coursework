@@ -17,3 +17,18 @@ We want to stress that the main goal for a recommender system is to show the use
 
 After the design of a good model, we need to find a way to elaborate this huge amount of information in order to extract the peculiarities between users and items that allows to achieve good recommendations. 
 
+Depending on the objective you want to fulfill, there are many different recommendation paradigms. The choice of the best paradigms is to be found according the type of data that is available and the computational efforts that one would like to employee when building the recommender system. For the latter point, computation time and power of available resources are two to important factors to be considered when developing such systems. In addition, when talking about the tyoes of data available, a good idea to use hybrids systems that combines multiple different approaches to address each method’s limitations. Nevertheless, it is worthwhile discussing the different paradigms in order to understand how to efficiently combine them. 
+
+There are four main paradigms in recommendation systems, which are described below:
+
+\textbf{content-based}: content-based recommendation builds a user's profile that is automatically generated and updated using, for example, items already bought by the user. Such algorithms recommend similar items based on item description, looking at items that are similar to each others according to certain particular features. The main advantage of content-based recommendation is that it does not require too much past history regarding one user, and among users and items. In many everyday scenarios, content-based recommendation is the most common approach. For example, personalized search is achieved by recommending web pages which are similar in content to those previously viewed by an user.
+
+\textbf{knowledge-based}: knowledge-based recommender systems use manually generated information about both users and items, that are built asking explicitly to a user questions about its preferences in order to construct a personal profile. Then, item similarity is done by experts. This is one limitations of this recommendation paradigms: we need the presence of experts in the sector capable of determine the best recommendation for a user.
+Nonetheless, when recommending to first-time users, knowledge based becomes one of the strategy that gives best performances.
+
+\textbf{social and demographic}: these recommender systems suggest items that are liked by friends or friends of friends, or items liked by demographically-similar people. Furthermore, they don’t need any preferences by the user, making them very powerful and easy to apply.
+
+\textbf{collaborative filtering}: collaborative filtering is the most popular technique involved in the construction of recommender systems. This approach is used by many companies and e-commerce sites. The idea behind is to build a matrix that represents similarity between users or items. This is then use to predict missing preferences for a certain item for example, and recommend items with the highest predicted rate to an user. The straightforward  advantage of this approach is that there's no need of content information for an item or the presence of experts that suggest a particular item. Only a set of users and items together with a notion of "preference" are needed to implement collaborative filtering. Moreover, this technique has been studied and researched by an huge amount of experts, making it pretty well-understood.
+
+In our work, we concentrated on the development of a recommender system based on collaborative filtering approach, with details that are given in the following sections. 
+

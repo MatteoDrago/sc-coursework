@@ -1,3 +1,5 @@
-\BOOKMARK [1][-]{section*.1}{Theoretical\040Introduction}{}% 1
-\BOOKMARK [1][-]{section*.2}{MATLAB\040Approach}{}% 2
-\BOOKMARK [1][-]{section*.3}{C++\040approach}{}% 3
+\BOOKMARK [1][-]{section*.1}{Theoretical Introduction}{}% 1
+\BOOKMARK [1][-]{section*.2}{MATLAB Approach}{}% 2
+\BOOKMARK [1][-]{section*.3}{C++ approach}{}% 3
+\BOOKMARK [2][-]{section*.4}{Database management}{section*.3}% 4
+\BOOKMARK [2][-]{section*.5}{Building similarity matrix}{section*.3}% 5
