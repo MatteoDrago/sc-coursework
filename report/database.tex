@@ -1,0 +1,10 @@
+\subsection{Database management}
+
+Considering the huge amount of users' ratings contained in the \textit{csv} file, we decided to utilize \textit{sqlite} as a database where to store all information needed and easily retrieve them. Each row of the database's table consists of three entries: the first contains user's id, the second item's identification while the third represents the rate given to that particular item by the user. In order to speed up database access several indexes were created on this database. An index called \textit{users\_idx} was set up for fast retrieving of data by user id, while an index called \textit{items\_idx} has the same function, but it's used with items search based. Another index (\textit{itemsusers\_idx}), it's used for researches based on a double key in the form of user and item ids. When dealing with big databases like that, the creation of an index is really important and can speed up database access of almost $100$ times, comparing with no indexes case.
+
+Moreover, as in \ref{eq_1} need the average of the rates given by a user to some item, we constructed a database that contains this values. Thanks to that, we don't need to recompute thousands of time the same value. Obviously, also this database contains an user index in order to speed up access. 
+
+The similarity matrix will be stored in database formatted in this way: each row contains within the first two columns a couple of ids that identify two users while the third columns contains the amount of similarity for the pair. An index between column $1$ and $2$ will be created. This index is very important since the database storing similarity values has a disk size of $\approx 60$ GByte. 
+
+The last but not least database to be used is the one that will contain the predicted rates given for an item by a user. The first two columns of this db are formatted according to \textit{csv} file \textit{"comp3208-2017-test"} and the third will be the predicted rating. 
+
