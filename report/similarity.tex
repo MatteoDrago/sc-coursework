@@ -13,6 +13,7 @@ The steps that involved the construction of the similarity matrix, exploiting \t
 	\item With the last \textit{for} cycle we computed all other columns of the matrix. Time execution is further improved with \textit{pragma omp tool}, thanks to which the computation of inner \textit{for} cycle is conducted in parallel.
 	\item At the end of every column computation, we saved only similarity values different from \textit{NaN} in database using \textit{runTransaction} method.
 	\item The function \textit{new\_pearson} returns the similarity between $user_i$ and $user_j$. With reference to the code reported in Algorithm 3, we obtained an overall complexity of O(n) for Pearson's coefficient calculation, since a find operation (look up) can be easily computed in O(1) exploiting \textit{dense google hash maps}.
+	\item Finally, with the function \textit{update similarity matrix} (contained in .zip file with source code), we added the possibility to resume the computation of matrix from a particular column value if some modifies were needed or something in code execution went wrong.
 \end{itemize}
 
 \begin{algorithm}
